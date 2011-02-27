@@ -1,0 +1,1 @@
+For now, everything you need to know is in src/ or on the Wiki (https://github.com/jrtayloriv/open-video-editor/wiki/Architecture)
