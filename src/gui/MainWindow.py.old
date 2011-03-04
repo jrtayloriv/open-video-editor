@@ -1,0 +1,102 @@
+#!/usr/bin/env python
+
+###########################################################
+# mainwindow.py: Main editor window w/ tabbed panels for:
+#    * Filesystem tree
+#    * Clip Editor
+#    * Project manager / clip bin
+#    * Python terminal
+#
+# Later on, we will generate interface from GUI template files 
+###########################################################
+
+import gtk
+import pygtk
+pygtk.require('2.0')
+
+#MainWindow needs to have an interface where the widget request system can add/del + show/hide things in MainWindow
+#That is, all of the widgets will be requested from somewhere else and manufactured somewhere else, but will then be
+#Attached as children of MainWindow when ready for display
+class MainWindow:
+    #Event handler for "open_file_dialog" signal	
+
+    def __init__(self):
+	# How do I just make it where "self" is a WINDOW_TOPLEVEL ?
+        window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+
+	# Set window properties
+        window.set_title("Open Video Editor 0.01x")
+        window.set_size_request(500, 350)
+        window.set_border_width(10)
+
+	#Register event handlers
+        window.connect("destroy", lambda w: gtk.main_quit())
+
+	#Create a gtk.MenuBar and pack it into the window for display
+	window.add(build_main_menu_bar(window))
+	# Create WidgetServer class w/ GTK subclass
+	
+	# Create GTKServer
+	# Interface between GTK Dialog class and OVE WidgetServer -- this is where Widgets request Dialogs
+	#XXX: How do we easily ask for dialogs when we need them, without
+	#     having to instantiate them when they're not being used?
+	# Gives us a file select dialog that opens a specific file
+	#open_file_widget = FileSelectDialog()
+
+	# Video portal
+	
+	# Video controls
+
+        window.show_all()
+
+# Ultimately, the menus should be generated from an external XML/JSON template ... 
+def build_main_menu_bar(window):
+
+    menu_bar = gtk.MenuBar();
+    file_menu_item = gtk.MenuItem("File")
+    file_menu = gtk.Menu()
+    file_menu_item.set_submenu(file_menu)
+
+# XXX: This is not connected to anything (!!!)
+    open_menu_item = gtk.MenuItem("Open file...")
+    open_menu_item.connect("activate", open_file)
+    file_menu.append(open_menu_item)
+	
+    exit_menu_item = gtk.MenuItem("Exit")
+    exit_menu_item.connect("activate", gtk.main_quit)
+    file_menu.append(exit_menu_item)
+    menu_bar.append(file_menu_item)
+
+    #place the gtk.MenuBar in a gtk.VBox, and pack the VBox into the gtk.Window
+    vbox = gtk.VBox(False, 2);
+    vbox.pack_start(menu_bar, False, False, 0)
+    menu_bar.show()
+    vbox.show()
+    return vbox
+	
+    def open_file():
+        file_dialog = gtk.FileChooserDialog("Open..",
+            None,
+            gtk.FILE_CHOOSER_ACTION_OPEN,
+            (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+            gtk.STOCK_OPEN, gtk.RESPONSE_OK))
+	file_dialog.show()
+	window.append(file_dialog)
+
+	print "Here -- look we've opened %s" % open_file_widget.get_filename()
+
+#class Terminal tab in main window (will interact with a terminal module)
+
+#class VideoViewport
+
+#class Clip
+
+def main():
+    gtk.main()
+    return 0
+
+if __name__ == "__main__":
+    MainWindow()
+    main()
+
+

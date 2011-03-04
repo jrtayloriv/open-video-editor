@@ -1,0 +1,119 @@
+==Principles==
+* Think of this as two projects (1) a very-high-level (clips, sequences/tracks, streams, etc.) video manipulation library; (2) a GUI that uses this library and other video editing librarys to implement a non-linear editor and a wide range of video manipulation tools. For low-level manipulations, third party applications already exist, and we should plug those in to the GUI. All you're doing is enabling people to apply command line video editing tools to video streams through a well-documented GUI system.
+
+==Roadmap==
+
+-----
+0.01
+-----
+Goal: A simple non-linear video editor. Light on transforms and effects, but can play, chop, and sequence multitrack video without a hitch.
+
+* We've determined the basic classes (Clips, Files, Timelines, Slider bars, File Open dialogs, etc. etc. ...) and architecture.
+
+* Documentation
+
+* Tests
+
+* Config file that sets paths, default viewport size, etc.
+
+* Debugging tools
+
+* Build scripts
+
+* A video streaming server using the ffmpeg and gstreamer utilities
+
+* Python-based terminal interface which has access to entire application, 
+  * It can (for example):
+    * Apply transforms/filters to the video in the portal
+    * Convert video/audio formats through the terminal using ffmpeg
+    * Load, alter/convert, and save individual files
+    * Anything else you choose to do with Python ...
+
+* GUI templates & generators
+  * Look into Glade and other GTK templating systems.
+  * Write templates for OVE GUI components
+
+* Video playback portals -- i.e. a movable, resizable video layer)
+  * Separated from the notion of a video playback control panel (which is attached to a video portal)
+
+* Clips & Sequences (pipelines)
+  * Download and examine gnonlin tracks, but do this yourself (gnonlin is dead and too low-level)
+  * For now just make it where you only have multiple tracks open (think multiple images in gimp), but can only play or transform a single video & single audio track at a time. These tracks won't be organized into a single stacked multi-track editor yet. They'll just be seperate free-floating timeline editor layers that we can drag around.
+  * Clips and tracks are really the same thing. A track is just a blank clip layer.
+  * Timing information (for progress bar, etc.) is gathered with Queries  -- see gst_element_query()
+  * Some Gstreamer objects have Clocks (See ch. 14 of man)
+  * Gstreamer "Probes" can be set at certain "Pads" as passive listeners that execute callbacks on certain events ...
+  * Sequences vs. clips vs. files
+    * Files are raw video streams from ffmpeg wrapper module.
+    * Clips are segments of raw video overlaid on a timeline (Gstreamer Clocks).
+    * Sequences are ordered sets of non-overlapping clips. (e.g. tracks)
+    * So you place clips in the sequence, but they are not merged with the sequence (think image layers). You need to still be able to edit them in the clip manager
+
+* Plugin interface
+
+* Widget and video/clip caching ... 
+
+* Glade Main Window (small, not full screen) generator/template
+  * Main body (Tabbed menus, e.g. Gimp toolbox -- but make sure you can break off individual tabs into separate widgets, so can have multiple open at once)
+    * Filesystem tree (tab)
+    * Project/clip organizer (tab)
+    * Clip information/metadata
+      * GstTagList
+      * GstTagSetter
+    * Clip editor
+    * Sequence editor
+
+  * Menu bar
+    * File
+      * Open... -- gstreamer "source element, man pdf p. 23
+      * Save
+      * Save as...
+      * Reload
+      * Exit
+    * Edit
+      * Undo / Redo
+    * Playback
+      * Uses either ffplay or playbin/decodebin (of course, possible to write modules for both)
+    * Transforms / Filters
+      * Terminal-based generator for quickly testing ffmpeg/gstreamer transforms and building menu options for them
+    * Windows
+    * Help
+
+* Easily connectable to a very wide range of hardware, through choice of an effective (already written) hardware manager (DBUS, etc.). Plug-in, one-click capture for most common cameras
+
+* OVE should be passing unit tests for *everything* in 0.01 before we start developing 0.02 features ... all bugs (other than upstream-caused bugs) should be quashed (otherwise, there's something you're not testing for ...) Make sure that we've got something that is stable on the basics before moving on to the flashier stuff.
+
+
+-----
+0.02
+----
+Goal: Powerful 3D/Video/Audio manipulations available. (Beefing up transform capabilities)
+
+* During this release, we will focus on building a flexible framework for video/audio manipulation and video analysis
+
+* We're going to write a lot of transform plugins here, but remember not to get obsessed with # of transforms available, as much as about
+  building a good framework
+  * Crossfade / Transparency / Overlay
+  * Crop / Resolution / Framerate
+  * Color curves / Histograms
+  * Blur / Pixelize regions (for these two, and for fading, regions can include everything on screen ... whenever possible, try to write region-based 
+  * Contrast / Threshold / Grayscale
+  * Ripples (GL/Blender transforms on frame image as sheet nodes)
+
+* Blender libs / 3D modelling support (we can base many useful transform libraries on manipulation of 3D objects ...)
+
+* Imagemagick / Gimp transformations on frames
+
+* Audio mixer/editing (via audacity-like libs) -- see chapter called "interfaces" in gstreamer man
+
+* Classes to describe not just video/file streams and clips, but also manipulations on the 3-D image/objects that the the video is rep
+
+----
+1.0
+----
+Goal: Networking, broadcasting and efficiency improvements
+
+* IPTV -- Broadcast IPTV streams and video clips over distributed P2P platform (Kad-like) 
+* Network streams/broadcast
+* Threads (esp. for faster transforms and render)
+* Render farms (BOINC-like platform)
