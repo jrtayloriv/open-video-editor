@@ -1,0 +1,28 @@
+# Open Video Editor 0.01a
+
+* This is going to be the main executable for the application. 
+  This is the video editing backend that will be managing the GUI. 
+  That is, the GUI is secondary to this application. (That's not to say that the
+  GUI is of secondary importance, but just that we shouldn't center development 
+  around the GUI (which is expendable, while video editing functionality is not))
+
+That is, none of the following require a GUI at all ... 
+
+* I/O -- video/audio streams
+  * Filters/transforms on streams ...
+  * Format conversion
+  * Network I/O & Broadcasting
+  
+* Clips
+  * Filters/transforms on clips are more powerful than (and inclusive of) the transforms
+    that we can do on streams. But clip transforms are bulkier and so for time-critical
+    (e.g. live-streaming high-res video) you want to be able to have direct stream transforms
+    also ... but some things that you can't do with a stream (crop/paste/rewind/etc.)
+
+* Tracks/Sequences
+  * Clip actually has at least one of these as an attribute (depending on how many tracks are in what the clip contains ...
+  * The tracks in the timeline editor / sequencer (proper name?) area ..*
+
+* ... and a lot of these things are already implemented elsewhere and we just have to plug them in (or write a clean/light version of them)
+
+print "[Insert video editor here] :) ..."
