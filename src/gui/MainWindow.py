@@ -60,7 +60,7 @@ class MainWindow():
         file_menu_item.set_submenu(file_menu)
 
         open_menu_item = gtk.MenuItem("Open file...")
-        open_menu_item.connect("activate", self.open_file)
+        open_menu_item.connect("activate", self.open_file_clicked)
         file_menu.append(open_menu_item)
 
         exit_menu_item = gtk.MenuItem("Exit")
@@ -87,8 +87,17 @@ class MainWindow():
         menu_bar.show()
         return menu_bar
 
-    def open_file(self, widget):
-        'display file selection dialog, and return filehandle for file selected'
+    def open_file_clicked(self, widget):
+        'Callback for when user clicks "Open File" in the "File" menu'
+        file_selected = self.open_file()
+        # XXX: Check to make sure the file path got returned        
+        #print "DEBUG: About to play: %s" % file_selected
+        self.video_play(file_selected)
+
+    #XXX: This should be moved into a set of general utility functions for the GUI system
+    def open_file(self):
+        'Display file selection dialog, and return full path to file selected'
+        
         open_file_dialog = gtk.FileChooserDialog("Open..",
             None,
             gtk.FILE_CHOOSER_ACTION_OPEN,
@@ -99,17 +108,13 @@ class MainWindow():
         #self.window.add(file_dialog)
         open_file_dialog.run()
 
-        #This is where we'd normally determine what to do with the filename
-        #the user selected ... right now it just directly calls video_play.
-        #...but later it will hand the filehandle back to someone who will
-        #determine what to do with it ...
+        #Store full path to file selected by user
         file_selected = open_file_dialog.get_filename()
-
-        print "DEBUG: About to open: %s" % file_selected
-        self.video_play(file_selected)
 
         #Clean up
         open_file_dialog.destroy()
+
+        return file_selected
 
     def video_play(self, video_stream):
         'play video_stream using video playback library (either gstreamer playbin or ffplay)'

@@ -7,9 +7,11 @@ pygst.require("0.10")
 import gst
 
 class VideoPlayer:
-    'Video player widget'
+    'Video playback widget'
     #   * TODO: create class VideoPortal embedded in Window with 
-    #           VideoControlToolbar'
+    #           VideoControlToolbar ... VideoPortal should be
+    
+    
     def __init__(self):
         self.window = gtk.Window()
         self.window.connect('destroy', self.on_destroy)
