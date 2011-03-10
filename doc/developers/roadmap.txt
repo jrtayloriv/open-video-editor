@@ -36,7 +36,7 @@ Goal: A simple non-linear video editor. Light on transforms and effects, but can
 * Video playback portals -- i.e. a movable, resizable video layer)
   * Separated from the notion of a video playback control panel (which is attached to a video portal)
 
-* Clips & Sequences (pipelines)
+* Clips (pipelines)
   * Download and examine gnonlin tracks, but do this yourself (gnonlin is dead and too low-level)
   * For now just make it where you only have multiple tracks open (think multiple images in gimp), but can only play or transform a single video & single audio track at a time. These tracks won't be organized into a single stacked multi-track editor yet. They'll just be seperate free-floating timeline editor layers that we can drag around.
   * Clips and tracks are really the same thing. A track is just a blank clip layer.
@@ -45,13 +45,13 @@ Goal: A simple non-linear video editor. Light on transforms and effects, but can
   * Gstreamer "Probes" can be set at certain "Pads" as passive listeners that execute callbacks on certain events ...
   * Sequences vs. clips vs. files
     * Files are raw video streams from ffmpeg wrapper module.
-    * Clips are segments of raw video overlaid on a timeline (Gstreamer Clocks).
-    * Sequences are ordered sets of non-overlapping clips. (e.g. tracks)
-    * So you place clips in the sequence, but they are not merged with the sequence (think image layers). You need to still be able to edit them in the clip manager
+    * Clips are sets of segments of raw video overlaid on a timeline (Gstreamer Clocks).
 
 * Plugin interface
 
 * Widget and video/clip caching ... 
+
+* Capture and logging
 
 * Glade Main Window (small, not full screen) generator/template
   * Main body (Tabbed menus, e.g. Gimp toolbox -- but make sure you can break off individual tabs into separate widgets, so can have multiple open at once)

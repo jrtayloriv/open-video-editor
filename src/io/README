@@ -1,10 +1,12 @@
-This directory is for IO Streams ... basically everything between the video file (or other 
+This directory is for IO modules ... basically everything between the video file (or other 
 video stream -- e.g. network), and when we've finally managed to place that video segment 
 into the clip structure
 
 When clips are rendered/played, they are converted back into a stream for playback (i.e. 
-IO-Stream also takes care of display on an output device (e.g. it might not be output to a screen, 
+IO modules also takes care of display on an output device (e.g. it might not be output to a screen, 
 but rather broadcast on a network) ...
 
-Video stream transforms go here if they work on raw data streams. Clip manipulations are different.
-(What about frame transforms?)
+Video stream transform libs make requests here if they need to read/write raw data streams, convert file formats, etc..
+
+* What about frame transforms? Yes, they go here. We would ask for a frame stream, and the filter would pull from that 
+  and output the transformed frame into its output frame stream.

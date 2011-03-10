@@ -1,0 +1,3 @@
+# What can gstreamer do for us here ...
+
+# How do we tie this in with Clip? What happens when they movie a file that one of the Clip's segment[]s is based on?

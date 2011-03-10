@@ -7,15 +7,32 @@ pygst.require("0.10")
 import gst
 
 class VideoPlayer:
-    'Video playback widget'
-    #   * TODO: create class VideoPortal embedded in Window with 
-    #           VideoControlToolbar ... VideoPortal should be
+    'Video playback widget:  video portal + control/timeline widgets'
+    #   * TODO: break out playbin/sink stuff into VideoPortal class
+    #           embedded in Container with a VideoControlToolbar, with
+    #           VideoPlayer as the object containing the window that they
+    #           live in, and acting as interface for them.
     
+    # Essentially, the VideoPortal will have an input stream (perhaps from 
+    # a Clip or Sequence object), filters, and
+    # then output to some sort of sink ... note that everything other than
+    # the sink part is handled by non-gui components (in io/)
+    
+    # The VideoControlToolbar will send commands to the backend for the 
+    # portal's video stream (whichever portal the Toolbar is connected to,
+    # that is)
+    
+    # The VideoPlayer will act as a container for each of these, and will 
+    # handle communications with other GUI components
     
     def __init__(self):
+        # XXX: Later, this needs to be a gtk.Frame that gets placed inside 
+        #      a Panel
         self.window = gtk.Window()
         self.window.connect('destroy', self.on_destroy)
-
+        # How do we place this on the right margin of screen, and make it the
+        # same width as MainWindow?
+        
         self.drawingarea = gtk.DrawingArea()
         self.drawingarea.connect('realize', self.on_drawingarea_realized)
         self.window.add(self.drawingarea)
